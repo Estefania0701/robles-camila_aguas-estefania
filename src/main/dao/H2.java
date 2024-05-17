@@ -6,9 +6,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
-public class DataBase {
+public class H2 {
 
-    private static final Logger logger = Logger.getLogger(DataBase.class);
+    private static final Logger logger = Logger.getLogger(H2.class);
 
     private static final String SQL_DROP_CREATE_PACIENTES= "DROP TABLE IF EXISTS PACIENTES; " +
             "CREATE TABLE PACIENTES (" +
@@ -27,12 +27,23 @@ public class DataBase {
             "LOCALIDAD VARCHAR(100) NOT NULL, " +
             "PROVINCIA VARCHAR(100) NOT NULL)";
 
+    private static final String SQL_DROP_CREATE_ODONTOLOGOS= "DROP TABLE IF EXISTS ODONTOLOGOS; " +
+            "CREATE TABLE ODONTOLOGOS (" +
+            "ID INT AUTO_INCREMENT PRIMARY KEY, " +
+            "NUMERO_MATRICULA INT NOT NULL, " +
+            "NOMBRE VARCHAR(100) NOT NULL, " +
+            "APELLIDO VARCHAR(100) NOT NULL)";
+
     private static final String SQL_PRUEBA = "INSERT INTO PACIENTES (NOMBRE, APELLIDO, CEDULA, FECHA_INGRESO, DOMICILIO_ID) VALUES " +
             "('Juan', 'Perez', '12345678', '2021-01-01', 1), " +
             "('Maria', 'Gomez', '87654321', '2021-01-01', 2); " +
             "INSERT INTO DOMICILIOS (CALLE, NUMERO, LOCALIDAD, PROVINCIA) VALUES " +
             "('CL Falsa', 123, 'Alabama', 'Springfield'), " +
             "('KR Falsa', 456, 'Springfield', 'Springfield');";
+
+    private static final String SQL_PRUEBA_ODONTOLOGOS = "INSERT INTO ODONTOLOGOS (NUMERO_MATRICULA, NOMBRE, APELLIDO) VALUES " +
+            "(123456, 'Carlos', 'Rúa'), " +
+            "(876543, 'Luisa', 'Castro');";
 
     public static void crearTablas() {
         Connection connection = null;
@@ -42,6 +53,8 @@ public class DataBase {
             statement.execute(SQL_DROP_CREATE_DOMICILIOS);
             statement.execute(SQL_DROP_CREATE_PACIENTES);
             statement.execute(SQL_PRUEBA);
+            statement.execute(SQL_DROP_CREATE_ODONTOLOGOS);
+            statement.execute(SQL_PRUEBA_ODONTOLOGOS);
             logger.info("Tablas creadas correctamente");
         } catch (Exception e) {
             logger.error("Error al crear las tablas", e);
@@ -50,7 +63,7 @@ public class DataBase {
 
     public static Connection getConnection() throws Exception {
         Class.forName("org.h2.Driver");
-        return DriverManager.getConnection("jdbc:h2:mem:~/c11ClinicaDental", "sa", "sa");
+        return DriverManager.getConnection("jdbc:h2:mem:~/parcialClinicaDental", "sa", "sa");
     }
 
 }

@@ -27,7 +27,7 @@ public class DomicilioDAOH2 implements IDao<Domicilio> {
         Domicilio domicilio = null;
 
         try {
-            connection = DataBase.getConnection();
+            connection = H2.getConnection();
             Statement statement = connection.createStatement();
             PreparedStatement psSelectOne = connection.prepareStatement(SQL_SELECT_ONE);
             psSelectOne.setInt(1, id);

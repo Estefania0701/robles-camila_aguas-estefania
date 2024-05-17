@@ -1,7 +1,7 @@
-package main;
+package test;
 
 
-import main.dao.DataBase;
+import main.dao.H2;
 import main.model.Paciente;
 import main.service.PacienteService;
 import org.junit.jupiter.api.Assertions;
@@ -12,7 +12,7 @@ class PacienteServiceTest {
 
     @Test
     public void buscarPorIdPaciente() {
-        DataBase.crearTablas();
+        H2.crearTablas();
         PacienteService pacienteService = new PacienteService();
         Integer id = 2;
         Paciente paciente = pacienteService.buscarPorId(id);
